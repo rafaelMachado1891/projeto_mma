@@ -2,6 +2,10 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
+def get_text_or_none(soup_element, tag, class_name):
+    element = soup_element.find(tag, class_=class_name)
+    return element.text.strip() if element else None
+
 url = "https://verdictmma.com/fighter/alex-poatan-pereira"
 
 response = requests.get(url)
@@ -12,15 +16,11 @@ if response.status_code == 200:
 
     data = []
     for dados in resultado:
-        # Encontrar a div com a classe text-sm dentro do elemento atual
-        data_evento_div = dados.find("div", class_="text-sm text-gray-500 leading-none")
-        if data_evento_div:
-            # Extrair o texto do elemento encontrado
-            data_evento = data_evento_div.text.strip()
-        else:
-            data_evento = None  # Ou você pode usar um valor padrão como uma string vazia
+        # Usar a função auxiliar para encontrar e extrair o texto
+        data_evento = get_text_or_none(dados, "div", "text-sm text-gray-500 leading-none")
+        evento = get_text_or_none(dados, "div", "text-sm font-medium font-sans text-gray-500 text-right leading-none")
 
-        data.append({'Data_Evento': data_evento})
+        data.append({'Data_Evento': data_evento, "Card": evento})
 
     print(data)
 else:

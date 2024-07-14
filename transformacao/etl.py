@@ -22,5 +22,5 @@ df['resultado'] = df['resultado'].apply(extrair_win_or_loss_do_texto)
 # Remover a coluna original 'round'
 df = df.drop(columns=['round'])
 
-df.to_parquet('C:/Users/rafad/Documents/Repositorios_Git/projeto_mma/Data/Dados_tratados')
+df.to_parquet('C:/Users/rafad/Documents/Repositorios_Git/projeto_mma/Data/Dados_tratados.parquet')
 
